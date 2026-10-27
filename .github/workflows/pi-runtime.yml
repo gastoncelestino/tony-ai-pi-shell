@@ -25,6 +25,13 @@ jobs:
           done
       - run: npm run pi:version
       - run: npm run pi -- --version
+      - name: Load each project extension in Pi Agent
+        run: |
+          for extension in .pi/extensions/*.ts; do
+            [ -f "$extension" ] || continue
+            echo "Loading $extension through Pi Agent"
+            npm run pi -- --no-extensions --no-skills --no-prompt-templates --no-themes --extension "$extension" --help > /tmp/pi-extension-help.txt
+          done
       - run: npm audit --audit-level=moderate
       - name: Report dependency audit findings
         if: always()
