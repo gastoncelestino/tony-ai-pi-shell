@@ -29,7 +29,7 @@
   "scripts": {
     "pi": "node ./node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js",
     "pi:version": "node ./node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js --version",
-    "test:kernel": "node --experimental-strip-types --test tests/*.test.mjs"
+    "test:kernel": "node --experimental-transform-types --test tests/*.test.mjs"
   },
   "overrides": {
     "undici": "8.12.2"
