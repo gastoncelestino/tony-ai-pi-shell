@@ -41,7 +41,14 @@ done
 
 if [[ -n "$AGENT_DIR" ]]; then export PI_CODING_AGENT_DIR="$AGENT_DIR"; fi
 
-PI_BIN="${PI_BIN:-pi}"
+# Prioriza el Pi instalado en este repositorio; permite override explícito por PI_BIN.
+if [[ -z "${PI_BIN:-}" ]]; then
+  if [[ -x "$ROOT/node_modules/.bin/pi" ]]; then
+    PI_BIN="$ROOT/node_modules/.bin/pi"
+  else
+    PI_BIN="pi"
+  fi
+fi
 PORT="${URL##*:}"; PORT="${PORT%%/*}"
 LISTEN="${TONY_LLAMASWAP_LISTEN:-127.0.0.1:$PORT}"
 WATCH_CONFIG="${TONY_LLAMASWAP_WATCH_CONFIG:--watch-config}"
