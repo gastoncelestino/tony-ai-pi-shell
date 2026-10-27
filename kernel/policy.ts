@@ -134,6 +134,11 @@ export class KernelPolicy {
     const candidate = path.posix.normalize(file);
     const normalizedScope = path.posix.normalize(scope);
 
+    // "." represents the project root and therefore every safe relative path.
+    if (normalizedScope === ".") {
+      return candidate !== "." && !candidate.startsWith("../") && !path.posix.isAbsolute(candidate);
+    }
+
     return candidate === normalizedScope || candidate.startsWith(`${normalizedScope}/`);
   }
 
