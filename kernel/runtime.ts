@@ -6,8 +6,8 @@ import {
   writeFile,
 } from "node:fs/promises";
 
-import type { KernelPolicy, PolicyDecision } from "./policy.js";
-import type { ExecutionMode, Task } from "./types.js";
+import type { KernelPolicy, PolicyDecision } from "./policy.ts";
+import type { ExecutionMode, Task } from "./types.ts";
 
 export interface ActiveTaskContext {
   getActiveTask(): Task | undefined;
