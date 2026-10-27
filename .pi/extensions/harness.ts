@@ -1,9 +1,9 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 
-import { KernelPolicy } from "#kernel/policy.js";
-import { PiRuntime } from "#kernel/runtime.js";
-import type { Task, TaskExecutionPolicy } from "#kernel/types.js";
+import { KernelPolicy } from "#kernel/policy.ts";
+import { PiRuntime } from "#kernel/runtime.ts";
+import type { Task, TaskExecutionPolicy } from "#kernel/types.ts";
 
 let activeTask: Task | undefined;
 

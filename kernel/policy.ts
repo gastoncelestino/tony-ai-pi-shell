@@ -1,6 +1,6 @@
 import path from "node:path";
 import { realpath, stat } from "node:fs/promises";
-import type { ExecutionMode, Task, TaskExecutionPolicy } from "./types.js";
+import type { ExecutionMode, Task, TaskExecutionPolicy } from "./types.ts";
 
 export type PolicyDecision = { allowed: true; reason: string } | { allowed: false; code: string; reason: string };
 
