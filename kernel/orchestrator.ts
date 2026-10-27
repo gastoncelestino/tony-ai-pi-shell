@@ -1,4 +1,4 @@
-import { isAllowedTaskTransition, type AgentResult, type EvidenceGateResult, type SchedulerLimits, type Task, type TaskError, type TaskRecord, type TaskStatus } from "./types.js";
+import { isAllowedTaskTransition, type AgentResult, type EvidenceGateResult, type SchedulerLimits, type Task, type TaskError, type TaskRecord, type TaskStatus } from "./types.ts";
 
 export type EvidenceEvaluator = (task: Task, result: AgentResult) => Promise<EvidenceGateResult>;
 
