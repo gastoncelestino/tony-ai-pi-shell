@@ -1,0 +1,27 @@
+{
+  "layout": {
+    "mainWidth": 85,
+    "sidebarWidth": 15,
+    "sidebarHeight": 44,
+    "mainWidthNoSidebar": 100,
+    "mainMarginRight": 1,
+    "mainMarginRightNoSidebar": 1,
+    "sidebarMinWidth": 15,
+    "sidebarMinTerm": 100
+  },
+  "stats": { "marginTop": 1, "marginBottom": 0 },
+  "colors": {
+    "promptBorder": "#5fafff",
+    "promptBg": "selectedBg",
+    "promptMode": "accent",
+    "userBorder": "#5fafff",
+    "userBg": "userMessageBg",
+    "sidebarBg": "userMessageBg",
+    "statsCwd": "muted",
+    "statsCtx": "accent",
+    "statsTokens": "success",
+    "statsCost": "warning",
+    "statsSep": "dim",
+    "statsClock": "#efefef"
+  }
+}

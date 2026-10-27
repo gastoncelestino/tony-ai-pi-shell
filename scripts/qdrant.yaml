@@ -1,0 +1,24 @@
+# @project-map
+# purpose: Instancia propia de qdrant para la capa semántica de tony-mem.
+# role: qdrant-instance-config
+# inputs: Puerto y directorio de storage de la instancia.
+# outputs: Qdrant escuchando en 6334 (HTTP) y 6335 (gRPC), con su storage en el runtime local.
+# used-by: scripts/pi.sh, kernel/memory.ts
+# read-when: Cambia el puerto o la ubicación del storage de qdrant.
+#
+# Qdrant 1.19 lee http_port/grpc_port; la clave `port` se ignora. Por eso
+# tony-ai usa 6333 sin problema: es el default. Esta instancia usa 6334/6335
+# para convivir con la de tony-ai sin compartir storage.
+#
+# El storage vive FUERA del proyecto, en el runtime local. scripts/pi.sh
+# levanta Qdrant con el cwd en TONY_AI_HOME para que los marcadores que
+# Qdrant crea ahí (.qdrant-initialized y snapshots/) no caigan en el
+# proyecto, y verifica que este storage_path coincida con
+# TONY_QDRANT_STORAGE del .env antes de arrancar.
+storage:
+  storage_path: /home/tony/.tony-ai/local-memory/qdrant
+service:
+  host: 127.0.0.1
+  http_port: 6334
+  grpc_port: 6335
+telemetry_disabled: true

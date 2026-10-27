@@ -1,0 +1,23 @@
+{
+  "name": "tony-ai-pi-shell",
+  "version": "0.0.7",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#kernel/*": "./kernel/*"
+  },
+  "pi": {
+    "extensions": [
+      "./.pi/extensions"
+    ],
+    "skills": [
+      "./skills"
+    ],
+    "prompts": [
+      "./prompts"
+    ],
+    "themes": [
+      "./themes"
+    ]
+  }
+}
