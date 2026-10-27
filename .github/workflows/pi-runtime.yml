@@ -1,0 +1,20 @@
+name: Pi runtime
+
+on:
+  push:
+    branches: [fix/node-22.19.0-pi-runtime]
+  pull_request:
+    branches: [tony-ai-pi-shell]
+
+jobs:
+  verify-local-pi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm install --ignore-scripts
+      - run: bash -n scripts/pi.sh
+      - run: npm run pi:version
+      - run: npm run pi -- --version

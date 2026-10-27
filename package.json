@@ -19,5 +19,15 @@
     "themes": [
       "./themes"
     ]
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "1.4.0"
+  },
+  "scripts": {
+    "pi": "node ./node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js",
+    "pi:version": "node ./node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js --version"
   }
 }

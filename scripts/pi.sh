@@ -41,7 +41,14 @@ done
 
 if [[ -n "$AGENT_DIR" ]]; then export PI_CODING_AGENT_DIR="$AGENT_DIR"; fi
 
-PI_BIN="${PI_BIN:-pi}"
+# Prioriza el CLI instalado en este repositorio. Se invoca con node para no depender del bit ejecutable del shim npm.
+PI_LOCAL_CLI=""
+if [[ -z "${PI_BIN:-}" && -f "$ROOT/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js" ]]; then
+  PI_BIN="node"
+  PI_LOCAL_CLI="$ROOT/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js"
+else
+  PI_BIN="${PI_BIN:-pi}"
+fi
 PORT="${URL##*:}"; PORT="${PORT%%/*}"
 LISTEN="${TONY_LLAMASWAP_LISTEN:-127.0.0.1:$PORT}"
 WATCH_CONFIG="${TONY_LLAMASWAP_WATCH_CONFIG:--watch-config}"
@@ -186,7 +193,11 @@ fi
 
 # verificar si $AGENT_DIR esta en directorio correcto
 [[ -n "$AGENT_DIR" ]] && say "config de pi: $AGENT_DIR"
-"$PI_BIN" "$@"
+if [[ -n "$PI_LOCAL_CLI" ]]; then
+  "$PI_BIN" "$PI_LOCAL_CLI" "$@"
+else
+  "$PI_BIN" "$@"
+fi
 rc=$?
 
 # Liberar VRAM/RAM al salir de pi
