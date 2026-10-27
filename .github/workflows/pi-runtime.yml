@@ -18,3 +18,8 @@ jobs:
       - run: bash -n scripts/pi.sh
       - run: npm run pi:version
       - run: npm run pi -- --version
+      - name: Report dependency audit findings
+        if: always()
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node --input-type=commonjs -e 'const a=require("/tmp/npm-audit.json"); console.log(JSON.stringify({metadata:a.metadata?.vulnerabilities, vulnerabilities:Object.entries(a.vulnerabilities||{}).map(([name,v])=>({name,severity:v.severity,isDirect:v.isDirect,range:v.range,fixAvailable:v.fixAvailable,via:v.via.map(x=>typeof x==="string"?x:{name:x.name,title:x.title,range:x.range,url:x.url})}))},null,2))'
