@@ -271,7 +271,7 @@ test("scheduler refuses a task whose file scope violates policy", async () => {
     await scheduler.waitForIdle();
 
     assert.equal(runtimeCalls, 0);
-    assert.equal(orchestrator.getTask("outside-scope").status, "ready");
+    assert.equal(orchestrator.getTask("outside-scope").status, "blocked");
   } finally {
     await rm(root, { recursive: true, force: true });
   }
