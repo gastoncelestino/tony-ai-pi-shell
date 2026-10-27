@@ -16,6 +16,13 @@ jobs:
           node-version-file: .nvmrc
       - run: npm ci --ignore-scripts
       - run: bash -n scripts/pi.sh
+      - name: Check TypeScript syntax
+        run: |
+          for file in kernel/*.ts .pi/extensions/*.ts; do
+            [ -f "$file" ] || continue
+            echo "Checking $file"
+            node --check "$file"
+          done
       - run: npm run pi:version
       - run: npm run pi -- --version
       - run: npm audit --audit-level=moderate
