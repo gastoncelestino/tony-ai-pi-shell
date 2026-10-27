@@ -2,7 +2,7 @@ name: Pi runtime
 
 on:
   push:
-    branches: [fix/node-22.19.0-pi-runtime, tony-ai-pi-shell]
+    branches: [fix/node-22.19.0-pi-runtime, tony-ai-pi-shell, chore/reproducible-dependencies]
   pull_request:
     branches: [tony-ai-pi-shell]
 
@@ -14,10 +14,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - run: npm install --ignore-scripts
+      - run: npm ci --ignore-scripts
       - run: bash -n scripts/pi.sh
+      - name: Check TypeScript syntax
+        run: |
+          for file in kernel/*.ts .pi/extensions/*.ts; do
+            [ -f "$file" ] || continue
+            echo "Checking $file"
+            node --check "$file"
+          done
       - run: npm run pi:version
       - run: npm run pi -- --version
+      - run: npm audit --audit-level=moderate
       - name: Report dependency audit findings
         if: always()
         run: |
