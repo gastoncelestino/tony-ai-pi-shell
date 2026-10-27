@@ -2,7 +2,7 @@ name: Pi runtime
 
 on:
   push:
-    branches: [fix/node-22.19.0-pi-runtime]
+    branches: [fix/node-22.19.0-pi-runtime, tony-ai-pi-shell]
   pull_request:
     branches: [tony-ai-pi-shell]
 
