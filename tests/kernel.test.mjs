@@ -7,6 +7,7 @@ import test from "node:test";
 import { Orchestrator, OrchestratorError } from "../kernel/orchestrator.ts";
 import { KernelPolicy } from "../kernel/policy.ts";
 import { PiRuntime } from "../kernel/runtime.ts";
+import { KernelScheduler } from "../kernel/scheduler.ts";
 
 const limits = {
   maxConcurrency: 1,
@@ -167,5 +168,111 @@ test("runtime enforces task file scope and refuses symlink escapes", async () =>
   } finally {
     await rm(root, { recursive: true, force: true });
     await rm(outside, { recursive: true, force: true });
+  }
+});
+
+
+test("scheduler runs a task through runtime and Evidence Gate to completion", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "tony-scheduler-"));
+  try {
+    await mkdir(path.join(root, "src"));
+    await writeFile(path.join(root, "src", "example.txt"), "fixture", "utf8");
+
+    const policy = await KernelPolicy.create(root, {
+      allowedRoles: ["worker"],
+      allowedFiles: ["src"],
+      executionMode: "scoped-write",
+      limits,
+    });
+    const orchestrator = new Orchestrator({
+      limits,
+      authorizeTask: (task) => policy.authorizeTask(task),
+      evaluateEvidence: async (task) => ({
+        accepted: true,
+        taskId: task.id,
+        checks: [{
+          name: "mock-runtime",
+          status: "passed",
+          evidence: "deterministic runtime returned success",
+        }],
+      }),
+    });
+    const runtime = {
+      async execute(input) {
+        return {
+          taskId: input.taskId,
+          status: "success",
+          output: {
+            taskId: input.taskId,
+            summary: "Deterministic smoke task completed",
+            changedFiles: [],
+            checks: [],
+            errors: [],
+          },
+        };
+      },
+    };
+    const events = [];
+    const scheduler = new KernelScheduler({
+      orchestrator,
+      policy,
+      runtime,
+      limits,
+      onEvent: (event) => events.push(event),
+    });
+
+    orchestrator.createTask(taskInput("scheduler-smoke"));
+    await scheduler.runOnce();
+    await scheduler.waitForIdle();
+
+    assert.equal(orchestrator.getTask("scheduler-smoke").status, "completed");
+    assert.equal(orchestrator.getActiveCount(), 0);
+    assert.deepEqual(events.map((event) => event.type), ["task-started", "task-finished"]);
+    assert.equal(events.at(-1).status, "completed");
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("scheduler refuses a task whose file scope violates policy", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "tony-scheduler-"));
+  try {
+    await mkdir(path.join(root, "src"));
+    const policy = await KernelPolicy.create(root, {
+      allowedRoles: ["worker"],
+      allowedFiles: ["src"],
+      executionMode: "scoped-write",
+      limits,
+    });
+    const orchestrator = new Orchestrator({
+      limits,
+      authorizeTask: (task) => policy.authorizeTask(task),
+      evaluateEvidence: async (task) => ({
+        accepted: true,
+        taskId: task.id,
+        checks: [{ name: "unused", status: "passed" }],
+      }),
+    });
+    let runtimeCalls = 0;
+    const scheduler = new KernelScheduler({
+      orchestrator,
+      policy,
+      runtime: {
+        async execute(input) {
+          runtimeCalls += 1;
+          return successfulResult(input.taskId);
+        },
+      },
+      limits,
+    });
+
+    orchestrator.createTask(taskInput("outside-scope", [], ["../outside.txt"]));
+    await scheduler.runOnce();
+    await scheduler.waitForIdle();
+
+    assert.equal(runtimeCalls, 0);
+    assert.equal(orchestrator.getTask("outside-scope").status, "ready");
+  } finally {
+    await rm(root, { recursive: true, force: true });
   }
 });
