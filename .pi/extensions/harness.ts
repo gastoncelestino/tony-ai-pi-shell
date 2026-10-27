@@ -3,7 +3,7 @@ import { Type } from "typebox";
 
 import { KernelPolicy } from "#kernel/policy.js";
 import { PiRuntime } from "#kernel/runtime.js";
-import type { Task, TaskExecutionPolicy } from "../kernel/types.js";
+import type { Task, TaskExecutionPolicy } from "#kernel/types.js";
 
 let activeTask: Task | undefined;
 
