@@ -36,6 +36,7 @@ jobs:
       - run: bash -n scripts/pi.sh
       - run: npm run pi:version
       - run: npm run pi -- --version
+      - run: npm audit --audit-level=moderate
       - name: Report dependency audit findings
         if: always()
         run: |
