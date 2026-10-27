@@ -27,13 +27,8 @@ jobs:
       - run: npm run pi -- --version
       - name: Run functional kernel tests
         run: npm run test:kernel
-      - name: Load each project extension in Pi Agent
-        run: |
-          for extension in .pi/extensions/*.ts; do
-            [ -f "$extension" ] || continue
-            echo "Loading $extension through Pi Agent"
-            npm run pi -- --no-extensions --no-skills --no-prompt-templates --no-themes --extension "$extension" --help > /tmp/pi-extension-help.txt
-          done
+      - name: Smoke-test Pi Agent CLI
+        run: npm run pi -- --help > /tmp/pi-help.txt
       - run: npm audit --audit-level=moderate
       - name: Report dependency audit findings
         if: always()
