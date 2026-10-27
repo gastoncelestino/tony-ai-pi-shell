@@ -5,6 +5,8 @@ import path from "node:path";
 import test from "node:test";
 
 import harnessExtension, { setKernelActiveTask } from "../.pi/extensions/harness.ts";
+import kernelExtension from "../.pi/extensions/kernel.ts";
+import eventsExtension from "../.pi/extensions/events.ts";
 import { KernelPolicy } from "../kernel/policy.ts";
 
 const limits = {
@@ -139,4 +141,43 @@ test("the configured project-root policy accepts safe relative paths", async () 
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+
+test("all project extensions register their hooks through the Pi extension API", () => {
+  const hooks = new Map();
+  const commands = new Map();
+  const tools = new Map();
+  const pi = {
+    on(name, handler) {
+      hooks.set(name, handler);
+    },
+    registerCommand(name, command) {
+      commands.set(name, command);
+    },
+    registerTool(tool) {
+      tools.set(tool.name, tool);
+    },
+  };
+
+  kernelExtension(pi);
+  eventsExtension(pi);
+  harnessExtension(pi);
+
+  for (const hook of [
+    "session_start",
+    "before_agent_start",
+    "tool_call",
+    "session_shutdown",
+    "agent_start",
+    "agent_end",
+    "input",
+    "model_select",
+    "turn_end",
+  ]) {
+    assert.equal(typeof hooks.get(hook), "function", `missing hook: ${hook}`);
+  }
+  assert.equal(typeof commands.get("sidebar")?.handler, "function");
+  assert.ok(tools.has("kernel_read_file"));
+  assert.ok(tools.has("kernel_write_file"));
 });
