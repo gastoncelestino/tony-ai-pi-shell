@@ -1,0 +1,43 @@
+name: Generate and verify dependency lockfile
+
+on:
+  push:
+    branches: [chore/reproducible-dependencies]
+
+permissions:
+  contents: write
+
+jobs:
+  lock-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: chore/reproducible-dependencies
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Generate npm lockfile
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit lockfile if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "package-lock.json is already up to date"
+          else
+            git commit -m "Add reproducible npm lockfile"
+            git push origin HEAD:chore/reproducible-dependencies
+          fi
+      - name: Verify clean install from lockfile
+        run: npm ci --ignore-scripts
+      - run: bash -n scripts/pi.sh
+      - run: npm run pi:version
+      - run: npm run pi -- --version
+      - name: Report dependency audit findings
+        if: always()
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node --input-type=commonjs -e 'const a=require("/tmp/npm-audit.json"); console.log(JSON.stringify({metadata:a.metadata?.vulnerabilities, vulnerabilities:Object.entries(a.vulnerabilities||{}).map(([name,v])=>({name,severity:v.severity,isDirect:v.isDirect,range:v.range,fixAvailable:v.fixAvailable,via:v.via.map(x=>typeof x==="string"?x:{name:x.name,title:x.title,range:x.range,url:x.url})}))},null,2))'
