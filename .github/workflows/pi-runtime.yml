@@ -15,4 +15,6 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: npm install --ignore-scripts
+      - run: bash -n scripts/pi.sh
       - run: npm run pi:version
+      - run: npm run pi -- --version
