@@ -25,6 +25,8 @@ jobs:
           done
       - run: npm run pi:version
       - run: npm run pi -- --version
+      - name: Run functional kernel tests
+        run: npm run test:kernel
       - name: Load each project extension in Pi Agent
         run: |
           for extension in .pi/extensions/*.ts; do
