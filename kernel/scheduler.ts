@@ -5,10 +5,10 @@ import type {
   AgentRuntime,
   SchedulerLimits,
   Task
-} from "./types.js";
+} from "./types.ts";
 
-import { Orchestrator } from "./orchestrator.js";
-import { KernelPolicy } from "./policy.js";
+import { Orchestrator } from "./orchestrator.ts";
+import { KernelPolicy } from "./policy.ts";
 
 export type SchedulerOptions = {
   orchestrator: Orchestrator;
