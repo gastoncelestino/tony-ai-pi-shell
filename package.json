@@ -7,18 +7,10 @@
     "#kernel/*": "./kernel/*"
   },
   "pi": {
-    "extensions": [
-      "./.pi/extensions"
-    ],
-    "skills": [
-      "./skills"
-    ],
-    "prompts": [
-      "./prompts"
-    ],
-    "themes": [
-      "./themes"
-    ]
+    "extensions": ["./extensions"],
+    "skills": ["./skills"],
+    "prompts": ["./prompts"],
+    "themes": ["./themes"]
   },
   "engines": {
     "node": ">=22.19.0"
