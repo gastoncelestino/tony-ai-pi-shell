@@ -27,8 +27,8 @@ jobs:
       - run: npm run pi -- --version
       - name: Run functional kernel tests
         run: npm run test:kernel
-      - name: Smoke-test Pi Agent CLI
-        run: npm run pi -- --help > /tmp/pi-help.txt
+      - name: Smoke-test real Pi RPC extension loading
+        run: node scripts/test-pi-rpc.mjs
       - run: npm audit --audit-level=moderate
       - name: Report dependency audit findings
         if: always()
