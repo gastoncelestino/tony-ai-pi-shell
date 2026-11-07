@@ -1,0 +1,698 @@
+macros:
+  llamaServerBase: >
+    /home/tony/llama.cpp/build/bin/llama-server
+    --port ${PORT}
+    --host 0.0.0.0
+    --flash-attn on
+
+models:
+  deepseek-r1-8b:
+    aliases:
+      - "deepseek-r1-8b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/deepseek-r1-8b-q5_k_m.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/deepseek-r1-8b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/deepseek-r1-8b.jinja
+      --gpu-layers all
+      --fit off
+      --load-mode none
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 512
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 32768
+      --temp 0.6
+      --top-p 0.95
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  frog-nano-4b:
+    aliases:
+      - "frog-nano-4b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/frognano-4b-2609-q6_k.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 3
+      --n-predict 8192
+      #--log-file /home/tony/.tony-ai/logs-pi/frog-nano-4b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/frog-nano-4b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 512
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 131072
+      --temp 0.6
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  gemma-4-12b:
+    aliases:
+      - "gemma-4-12b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/gemma-4-12B-it-qat-ud-q4_k_xl.gguf
+      --model-draft /home/tony/.tony-ai/models/mtp-gemma-4-12b-it-q4_0.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      #--log-file /home/tony/.tony-ai/logs-pi/gemma-4-12b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/gemma4.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 131072
+      --temp 1.0
+      --top-p 0.95
+      --top-k 64
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  gemma-4-26b:
+    aliases:
+      - "gemma-4-26b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/gemma-4-26b-a4b-it-qat-ud-q4_k_xl.gguf
+      --model-draft /home/tony/.tony-ai/models/mtp-gemma-4-26b-a4b-it-q4_0.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      #--log-file /home/tony/.tony-ai/logs-pi/gemma-4-26b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/gemma4.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --n-cpu-moe 25
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 262144
+      --temp 1.0
+      --top-p 0.95
+      --top-k 64
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  gemma-4-e2b:
+    aliases:
+      - "gemma-4-e2b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/gemma-4-e2b-it-qat-ud-q4_k_xl.gguf
+      --model-draft /home/tony/.tony-ai/models/mtp-gemma-4-e2b-it-q4_0.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      #--log-file /home/tony/.tony-ai/logs-pi/gemma-4-e4b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/gemma4.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 262144
+      --temp 1.0
+      --top-p 0.95
+      --top-k 64
+      --kv-unified
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  gemma-4-e4b:
+    aliases:
+      - "gemma-4-e4b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/gemma-4-e4b-it-qat-ud-q4_k_xl.gguf
+      --model-draft /home/tony/.tony-ai/models/mtp-gemma-4-e4b-it-q4_0.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      #--log-file /home/tony/.tony-ai/logs-pi/gemma-4-e4b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/gemma4.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 262144
+      --temp 1.0
+      --top-p 0.95
+      --top-k 64
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  gpt-oss-20b:
+    aliases:
+      - "gpt-oss-20b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/gpt-oss-20b-q4_k_m.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/gpt-oss-20b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/gpt-oss-20b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --n-cpu-moe 10
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --reasoning on
+      --ctx-size 131072
+      --temp 1
+      --top-p 1
+      --top-k 100
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  kat-coder-30b:
+    aliases:
+      - "kat-coder-30b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/kat-coder-2.5-mtp.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      #--log-file /home/tony/.tony-ai/logs-pi/kat-coder-30b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/kat-coder-30b.jinja
+      --chat-template-kwargs '{"preserve_thinking": true}'
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --n-cpu-moe 35
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 512
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 262144
+      --temp 1.0
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 1.5
+      --batch-size 2048
+      --ubatch-size 512
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  k2-horizon-36b:
+    aliases:
+      - "k2-horizon-36b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/k2-horizon-36b-a4b-q4_k_m.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/k2-horizon-36b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/k2-horizon-36b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cpu-moe
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 512
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 32768
+      --temp 1
+      --top-p 0.95
+      --parallel 2
+      --batch-size 2048
+      --ubatch-size 512
+      --jinja
+    ttl: 900
+
+  ling-3.0-tiny:
+    aliases:
+      - "ling-3.0-tiny"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/ling-3.0-tiny-q6_k.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/ling-3.0-tiny.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 262144
+      --temp 1.0
+      --top-p 0.95
+      --top-k 20
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  moziai-35b:
+    aliases:
+      - "moziai-35b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/moziai-35b-mtp-q4_k_m.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      #--log-file /home/tony/.tony-ai/logs-pi/moziai-35b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/moziai-35b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --n-cpu-moe 25
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek-legacy
+      --reasoning-budget 512
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 131072
+      --temp 0.7
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.024
+      --repeat-penalty 1.05
+      --presence-penalty 0
+      --batch-size 2048
+      --ubatch-size 512
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  neohorse-4b:
+    aliases:
+      - "neohorse-4b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/neohorse-1-4b-q5_k_m.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/neohorse-4b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/neohorse-4b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 131072
+      --temp 1.0
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 1.5
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  neohorse-9b:
+    aliases:
+      - "neohorse-9b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/neohorse-1-9b-q5_k_m.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/neohorse-9b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/neohorse-9b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --ctx-size 131072
+      --temp 1.0
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 1.5
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  ornith-1.5-9b:
+    aliases:
+      - "ornith-1.5-9b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/ornith-1.5-9b-mtp-q5_k_m.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 3
+      #--log-file /home/tony/.tony-ai/logs-pi/ornith-1.5-9b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/ornith-1.5.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 8192
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 131072
+      --temp 0.6
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 0.0
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  ornith-1.5-35b:
+    aliases:
+      - "ornith-1.5-35b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/ornith-1.5-35b-q4_k_m.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 3
+      #--log-file /home/tony/.tony-ai/logs-pi/ornith-1.5-35b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/ornith-1.5-35.jinja
+      --fit off
+      --load-mode none
+      --n-cpu-moe 35
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 8192
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 262144
+      --temp 0.6
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 0.0
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  qwen-3.6-35b:
+    aliases:
+      - "qwen-3.6-35b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/qwen3.6-35b-a3b-ud-q4_k_m.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 3
+      #--log-file /home/tony/.tony-ai/logs-pi/qwen3.6-35b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/qwen3.6-35b.jinja
+      --fit off
+      --load-mode none
+      --n-cpu-moe 36
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 2048
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 262144
+      --temp 0.6
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 0.0
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  qwen-3.8-27b:
+    aliases:
+      - "qwen-3.8-27b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/qwen3.8-27b-rco-iq2_xs-mtp.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/qwen3.8-27b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/qwen3.8-27b.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q4_0
+      --cache-type-v q4_0
+      --cache-idle-slots
+      --reasoning off
+      --ctx-size 32768
+      --temp 1.0
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --presence-penalty 0.0
+      --repeat-penalty 1.0
+      --batch-size 512
+      --ubatch-size 512
+      --parallel 2
+    ttl: 900
+
+  qwen-3.8-9b:
+    aliases:
+      - "qwen-3.8-9b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/qwen3.8-9b-q6_k.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 3
+      #--log-file /home/tony/.tony-ai/logs-pi/qwen3.8-9b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/qwen3.8.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 4096
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 65536
+      --temp 0.6
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.05
+      --presence-penalty 0.0
+      --repeat-penalty 1.0
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  qwen3-coder:
+    aliases:
+      - "qwen3-coder"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/qwen3-coder-30b.q4_k_m.gguf
+      #--log-file /home/tony/.tony-ai/logs-pi/qwen3-coder-30b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/qwen3-coder.jinja
+      --fit off
+      --load-mode none
+      --n-cpu-moe 45
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning off
+      --ctx-size 131072
+      --temp 0.2
+      --top-p 0.8
+      --top-k 20
+      --min-p 0.05
+      --repeat-penalty 1.10
+      --samplers "top_k;top_p;min_p;temperature"
+      --batch-size 2048 
+      --ubatch-size 1024
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  qwopus-coder-35b:
+    aliases:
+      - "qwopus-coder-35b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/qwopus3.6-35b-a3b-coder-mtp-q4_k_m.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 3
+      #--log-file /home/tony/.tony-ai/logs-pi/qwopus3.6-35b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --n-cpu-moe 35
+      --ctx-size 262144
+      --reasoning off
+      --no-reasoning-preserve
+      --temp 0.7
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.0
+      --batch-size 2048
+      --ubatch-size 512
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  spark-2.5-4b:
+    aliases:
+      - "spark-2.5-4b"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/spark-x2.5-4b-q4_k_m.gguf
+      --n-predict 1024
+      #--log-file /home/tony/.tony-ai/logs-pi/spark-2.5.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/spark-2.5.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning on
+      --reasoning-format deepseek
+      --reasoning-budget 4096
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --ctx-size 262144
+      #--chat-template-kwargs '{"enable_thinking":false}'
+      --temp 0
+      --top-p 0.95
+      --top-k 1
+      --seed 12345
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  tiel-coder:
+    aliases:
+      - "tiel-coder"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/tiel-coder-35b-a3b-mtp-ud-q4_k_s.gguf
+      --spec-type draft-mtp
+      --spec-draft-n-max 2
+      --n-predict 1024
+      #--log-file /home/tony/.tony-ai/logs-pi/tiel-coder-35b-a3b.log
+      #--log-timestamps
+      #--log-verbosity 4
+      --chat-template-file /home/tony/.tony-ai/templates/tiel-coder.jinja
+      --fit off
+      --load-mode none
+      --gpu-layers all
+      --n-cpu-moe 36
+      --cache-type-k q8_0
+      --cache-type-v q8_0
+      --cache-idle-slots
+      --reasoning off
+      --reasoning-format deepseek
+      --reasoning-budget 0
+      --reasoning-budget-message "... tiempo de pensamiento agotado, respondiendo ahora:"
+      --chat-template-kwargs '{"enable_thinking":false}'
+      --ctx-size 262144
+      --temp 0.6
+      --top-p 0.95
+      --top-k 20
+      --min-p 0.05
+      --repeat-penalty 1.05
+      --parallel 2
+      --jinja
+    ttl: 900
+
+  nomic-embed-text:
+    aliases:
+      - "nomic-embed-text"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/nomic-embed-text-v1.5.q8_0.gguf
+      --embedding
+      --pooling mean
+      --ctx-size 8192
+      --gpu-layers all
+    ttl: 900
+
+  bge-m3:
+    aliases:
+      - "bge-m3"
+    cmd: |
+      ${llamaServerBase}
+      --model /home/tony/.tony-ai/models/bge-m3-q8_0.gguf
+      --embedding
+      --pooling cls
+      --ctx-size 8192
+      --gpu-layers all
+    ttl: 900

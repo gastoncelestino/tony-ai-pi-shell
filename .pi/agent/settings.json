@@ -1,0 +1,14 @@
+{
+  "defaultProvider": "tony-local",
+  "defaultModel": "gemma-4-e2b",
+  "defaultThinkingLevel": "medium",
+  "steeringMode": "one-at-a-time",
+  "followUpMode": "one-at-a-time",
+  "quietStartup": false,
+  "sessionDir": "/home/tony/.pi/agent/sessions",
+  "lastChangelogVersion": "1.4.0",
+  "theme": "opencode",
+  "hideThinkingBlock": true,
+  "collapseChangelog": true,
+  "tuiMode": "fullscreen"
+}
