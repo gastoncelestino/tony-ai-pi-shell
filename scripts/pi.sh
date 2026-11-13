@@ -43,9 +43,9 @@ if [[ -n "$AGENT_DIR" ]]; then export PI_CODING_AGENT_DIR="$AGENT_DIR"; fi
 
 # Prioriza el CLI instalado en este repositorio. Se invoca con node para no depender del bit ejecutable del shim npm.
 PI_LOCAL_CLI=""
-if [[ -z "${PI_BIN:-}" && -f "$ROOT/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js" ]]; then
+if [[ -z "${PI_BIN:-}" && -f "$TONY_HOME/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js" ]]; then
   PI_BIN="node"
-  PI_LOCAL_CLI="$ROOT/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js"
+  PI_LOCAL_CLI="$TONY_HOME/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js"
 else
   PI_BIN="${PI_BIN:-pi}"
 fi

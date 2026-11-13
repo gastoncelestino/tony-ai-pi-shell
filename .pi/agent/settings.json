@@ -6,9 +6,13 @@
   "followUpMode": "one-at-a-time",
   "quietStartup": false,
   "sessionDir": "/home/tony/.pi/agent/sessions",
-  "lastChangelogVersion": "1.4.0",
+  "lastChangelogVersion": "1.5.2",
   "theme": "opencode",
   "hideThinkingBlock": true,
   "collapseChangelog": true,
-  "tuiMode": "fullscreen"
+  "tuiMode": "fullscreen",
+  "showHardwareCursor": true,
+  "markdown": {
+    "mermaid": "streaming"
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "typeRoots": ["/home/tony/.tony-ai/node_modules/@types"],
+    "paths": { "@earendil-works/pi-coding-agent": ["/home/tony/.tony-ai/node_modules/@earendil-works/pi-coding-agent/dist/index.d.ts"], "@earendil-works/pi-tui": ["/home/tony/.tony-ai/node_modules/@earendil-works/pi-tui/dist/index.d.ts"] }
+  },
+  "include": [".pi/extensions/**/*.ts", "kernel/**/*.ts"]
+}
