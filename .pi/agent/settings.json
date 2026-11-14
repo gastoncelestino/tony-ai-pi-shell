@@ -10,9 +10,5 @@
   "theme": "opencode",
   "hideThinkingBlock": true,
   "collapseChangelog": true,
-  "tuiMode": "fullscreen",
-  "showHardwareCursor": true,
-  "markdown": {
-    "mermaid": "streaming"
-  }
+  "tuiMode": "fullscreen"
 }

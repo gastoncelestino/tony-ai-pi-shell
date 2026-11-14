@@ -10,7 +10,7 @@
   "sidebarRight": { 
     "bg": "$lightblack", 
     "width": 20, 
-    "height": 44, 
+    "height": 48, 
     "minTerm": 100 
   }
 }
