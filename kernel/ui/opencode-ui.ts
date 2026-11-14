@@ -141,7 +141,7 @@ function createFooter() {
         theme.fg("text", `Total ${formatTokens(total)}`),
         theme.fg("text", `Cached ${formatTokens(turn.cacheRead)}`),
         theme.fg("text", `🕒 ${formatDuration(elapsed)}`),
-        theme.fg("text", `Ctx ${context}`),
+        theme.fg("text", `🔥 ${context}`),
         theme.fg("success", `⚡ ${speed}`)
       ];
       const withBar = [...stats.slice(0, 6), theme.fg("text", bar), stats[6]];
@@ -184,8 +184,7 @@ class PromptEditor extends CustomEditor {
     const config = state.config.userPrompt;
     const main = state.mainWidth || mainContentWidth(width);
     const gap = sidebarIsVisible(width) ? SIDEBAR_GAP : 0;
-    const room = Math.max(10, main - gap);
-    const panelWidth = config.width ? Math.min(room, Math.floor((room * config.width) / 100)) : room;
+    const panelWidth = Math.max(10, main - gap);
     const lines = super.render(Math.max(10, panelWidth - 3));
     const bottom = lines.findLastIndex((line) => /^─{3,}/.test(line.replace(/\x1b\[[0-9;]*m/g, "")));
     if (bottom < 1) return lines;

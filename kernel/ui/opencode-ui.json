@@ -1,16 +1,13 @@
 {
   "userPrompt": { 
     "border": "$blue", 
-    "bg": "$lightblack", 
-    "width": 100 
+    "bg": "$lightblack"
   },
   "sidebarLeft": { 
     "bg": "$black" 
   },
   "sidebarRight": { 
     "bg": "$lightblack", 
-    "width": 20, 
-    "height": 48, 
-    "minTerm": 100 
+    "width": 20
   }
 }
