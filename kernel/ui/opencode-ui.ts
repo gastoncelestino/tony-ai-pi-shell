@@ -214,7 +214,7 @@ export function initializeUi(context: ExtensionContext, api: ExtensionAPI): void
     shrinkMainContent(ui);
 
     if (!state.sidebar) {
-      state.sidebar = ui.showOverlay(new StatusSidebar(), { nonCapturing: true, anchor: "top-right", width: `${state.config.sidebarRight.width}%`, minWidth: 10, visible: (terminalWidth: number) => terminalWidth >= MIN_TERMINAL });
+      state.sidebar = ui.showOverlay(new StatusSidebar(), { nonCapturing: true, anchor: "top-right", width: `${state.config.sidebarRight.width}%`, visible: (terminalWidth: number) => terminalWidth >= MIN_TERMINAL });
     }
     state.editor = new PromptEditor(ui, editorTheme, keybindings);
     return state.editor;
